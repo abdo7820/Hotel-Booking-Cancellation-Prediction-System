@@ -15,7 +15,7 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
 ARTIFACTS_DIR = os.environ.get("ARTIFACTS_DIR", "artifacts")
@@ -111,11 +111,7 @@ class PredictResponse(BaseModel):
 
 @app.get("/")
 def root():
-    return {
-        "message": "Hotel Booking Cancellation Prediction API",
-        "docs": "/docs",
-        "dashboard": "/dashboard",
-    }
+    return RedirectResponse(url="/dashboard")
 
 
 @app.get("/health")
