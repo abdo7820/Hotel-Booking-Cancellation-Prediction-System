@@ -1,0 +1,110 @@
+[
+  {
+    "Model":"XGBoost Tuned for Accuracy",
+    "Accuracy":0.848,
+    "Precision":0.7279,
+    "Recall":0.7184,
+    "F1":0.7231,
+    "ROC_AUC":0.9133,
+    "file":"xgboost_tuned_for_accuracy.pkl"
+  },
+  {
+    "Model":"Soft Voting",
+    "Accuracy":0.8416,
+    "Precision":0.703,
+    "Recall":0.7388,
+    "F1":0.7205,
+    "ROC_AUC":0.9105,
+    "file":"soft_voting.pkl"
+  },
+  {
+    "Model":"XGBoost",
+    "Accuracy":0.8433,
+    "Precision":0.7158,
+    "Recall":0.7178,
+    "F1":0.7168,
+    "ROC_AUC":0.9098,
+    "file":"xgboost.pkl"
+  },
+  {
+    "Model":"XGBoost Tuned for F1",
+    "Accuracy":0.8274,
+    "Precision":0.6573,
+    "Recall":0.7841,
+    "F1":0.7151,
+    "ROC_AUC":0.904,
+    "file":"xgboost_tuned_for_f1.pkl"
+  },
+  {
+    "Model":"Random Forest",
+    "Accuracy":0.8415,
+    "Precision":0.7143,
+    "Recall":0.7104,
+    "F1":0.7123,
+    "ROC_AUC":0.9012,
+    "file":"random_forest.pkl"
+  },
+  {
+    "Model":"Stacking",
+    "Accuracy":0.8399,
+    "Precision":0.7183,
+    "Recall":0.6919,
+    "F1":0.7048,
+    "ROC_AUC":0.8945,
+    "file":"stacking.pkl"
+  },
+  {
+    "Model":"Gradient Boosting",
+    "Accuracy":0.8087,
+    "Precision":0.622,
+    "Recall":0.7845,
+    "F1":0.6939,
+    "ROC_AUC":0.8929,
+    "file":"gradient_boosting.pkl"
+  },
+  {
+    "Model":"K-Nearest Neighbors",
+    "Accuracy":0.7698,
+    "Precision":0.5549,
+    "Recall":0.8413,
+    "F1":0.6687,
+    "ROC_AUC":0.8728,
+    "file":"k-nearest_neighbors.pkl"
+  },
+  {
+    "Model":"AdaBoost",
+    "Accuracy":0.7663,
+    "Precision":0.5524,
+    "Recall":0.8115,
+    "F1":0.6574,
+    "ROC_AUC":0.861,
+    "file":"adaboost.pkl"
+  },
+  {
+    "Model":"Logistic Regression",
+    "Accuracy":0.7638,
+    "Precision":0.5505,
+    "Recall":0.7903,
+    "F1":0.6489,
+    "ROC_AUC":0.854,
+    "file":"logistic_regression.pkl"
+  },
+  {
+    "Model":"Decision Tree",
+    "Accuracy":0.7909,
+    "Precision":0.6168,
+    "Recall":0.6419,
+    "F1":0.6291,
+    "ROC_AUC":0.7458,
+    "file":"decision_tree.pkl"
+  },
+  {
+    "Model":"Naive Bayes",
+    "Accuracy":0.5612,
+    "Precision":0.3769,
+    "Recall":0.9003,
+    "F1":0.5313,
+    "ROC_AUC":0.7859,
+    "file":"naive_bayes.pkl"
+  }
+]

@@ -1,0 +1,14 @@
+# للتشغيل المحلي / تجربة الإعداد قبل الرفع على Railway/Render فقط.
+# على Railway/Render هما بيبنوا من الـ Dockerfile مباشرة، مش محتاج compose.
+services:
+  api:
+    build: .
+    container_name: hotel-cancellation-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - ALLOWED_ORIGINS=*
+    volumes:
+      - ./artifacts:/code/artifacts:ro
+    restart: unless-stopped

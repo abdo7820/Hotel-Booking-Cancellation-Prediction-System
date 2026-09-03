@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: hotel-cancellation-api
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: "*"   # حدّثها لدومين الفرونت اند بتاعك لما يبقى جاهز

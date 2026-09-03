@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "Hotel Cancellation Prediction API",
+    "description": "Collection لاختبار كل endpoints المشروع قبل النشر",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8000" }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": { "method": "GET", "url": "{{base_url}}/health" }
+    },
+    {
+      "name": "List Models (sorted by F1)",
+      "request": { "method": "GET", "url": "{{base_url}}/models" }
+    },
+    {
+      "name": "Feature Importance",
+      "request": { "method": "GET", "url": "{{base_url}}/features" }
+    },
+    {
+      "name": "Insights",
+      "request": { "method": "GET", "url": "{{base_url}}/insights" }
+    },
+    {
+      "name": "Raw Feature Schema",
+      "request": { "method": "GET", "url": "{{base_url}}/schema" }
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/predict",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"model_key\": \"xgboost\",\n  \"booking\": {\n    \"hotel\": \"Resort Hotel\",\n    \"lead_time\": 45,\n    \"arrival_date_month\": \"July\",\n    \"arrival_date_year\": 2017,\n    \"arrival_date_day_of_month\": 12,\n    \"arrival_date_week_number\": 28,\n    \"stays_in_weekend_nights\": 2,\n    \"stays_in_week_nights\": 3,\n    \"adults\": 2,\n    \"children\": 0,\n    \"babies\": 0,\n    \"meal\": \"BB\",\n    \"country\": \"PRT\",\n    \"market_segment\": \"Online TA\",\n    \"distribution_channel\": \"TA/TO\",\n    \"is_repeated_guest\": 0,\n    \"previous_cancellations\": 0,\n    \"previous_bookings_not_canceled\": 0,\n    \"reserved_room_type\": \"A\",\n    \"assigned_room_type\": \"A\",\n    \"booking_changes\": 0,\n    \"deposit_type\": \"No Deposit\",\n    \"agent\": 9,\n    \"company\": null,\n    \"days_in_waiting_list\": 0,\n    \"customer_type\": \"Transient\",\n    \"adr\": 120,\n    \"required_car_parking_spaces\": 0,\n    \"total_of_special_requests\": 1\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "Predict - Invalid Model (should 404)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/predict",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"model_key\": \"not_a_real_model\",\n  \"booking\": { \"hotel\": \"Resort Hotel\" }\n}"
+        }
+      }
+    }
+  ]
+}

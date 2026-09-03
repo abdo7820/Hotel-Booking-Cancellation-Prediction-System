@@ -1,0 +1,167 @@
+{
+  "target_distribution": {
+    "0": 72.37,
+    "1": 27.63
+  },
+  "cancel_rate_by_market_segment": {
+    "Online TA": 35.41,
+    "Groups": 26.67,
+    "Aviation": 19.82,
+    "Direct": 14.71,
+    "Offline TA/TO": 14.63,
+    "Corporate": 12.0,
+    "Complementary": 8.06
+  },
+  "cancel_rate_by_season": {
+    "Winter": 24.28,
+    "Spring": 28.17,
+    "Summer": 31.76,
+    "Fall": 23.28
+  },
+  "cancel_rate_by_deposit_type": {
+    "Non Refund": 94.58,
+    "No Deposit": 26.83,
+    "Refundable": 24.3
+  },
+  "cancel_rate_by_lead_time_bucket": {
+    "0-7 days": 8.41,
+    "8-30 days": 25.51,
+    "31-90 days": 31.98,
+    "91-180 days": 34.86,
+    "180+ days": 39.57
+  },
+  "cancel_rate_room_type_changed": {
+    "0": 31.5,
+    "1": 4.71
+  },
+  "cancel_rate_returning_customer": {
+    "0": 27.67,
+    "1": 26.93
+  },
+  "cancel_rate_prior_cancellation": {
+    "0": 26.84,
+    "1": 69.37
+  },
+  "hotel_distribution": {
+    "City Hotel": 52118,
+    "Resort Hotel": 33051
+  },
+  "meal_distribution": {
+    "BB": 66343,
+    "SC": 9692,
+    "HB": 8803,
+    "FB": 331
+  },
+  "deposit_type_distribution": {
+    "No Deposit": 84047,
+    "Non Refund": 1015,
+    "Refundable": 107
+  },
+  "correlation_matrix": {
+    "lead_time": {
+      "lead_time": 1.0,
+      "adr": 0.009,
+      "total_nights": 0.319,
+      "total_guests": 0.124,
+      "total_prev_stays": -0.066,
+      "is_canceled": 0.181
+    },
+    "adr": {
+      "lead_time": 0.009,
+      "adr": 1.0,
+      "total_nights": 0.03,
+      "total_guests": 0.464,
+      "total_prev_stays": -0.083,
+      "is_canceled": 0.127
+    },
+    "total_nights": {
+      "lead_time": 0.319,
+      "adr": 0.03,
+      "total_nights": 1.0,
+      "total_guests": 0.113,
+      "total_prev_stays": -0.059,
+      "is_canceled": 0.081
+    },
+    "total_guests": {
+      "lead_time": 0.124,
+      "adr": 0.464,
+      "total_nights": 0.113,
+      "total_guests": 1.0,
+      "total_prev_stays": -0.124,
+      "is_canceled": 0.101
+    },
+    "total_prev_stays": {
+      "lead_time": -0.066,
+      "adr": -0.083,
+      "total_nights": -0.059,
+      "total_guests": -0.124,
+      "total_prev_stays": 1.0,
+      "is_canceled": -0.035
+    },
+    "is_canceled": {
+      "lead_time": 0.181,
+      "adr": 0.127,
+      "total_nights": 0.081,
+      "total_guests": 0.101,
+      "total_prev_stays": -0.035,
+      "is_canceled": 1.0
+    }
+  },
+  "chi_square_results": [
+    {
+      "feature": "deposit_type",
+      "chi2": 2303.14,
+      "p_value": 0.0,
+      "significant": true
+    },
+    {
+      "feature": "customer_type",
+      "chi2": 1537.14,
+      "p_value": 0.0,
+      "significant": true
+    },
+    {
+      "feature": "market_segment",
+      "chi2": 4179.25,
+      "p_value": 0.0,
+      "significant": true
+    },
+    {
+      "feature": "distribution_channel",
+      "chi2": 1935.5,
+      "p_value": 0.0,
+      "significant": true
+    },
+    {
+      "feature": "hotel",
+      "chi2": 452.93,
+      "p_value": 1.6585014534249845e-100,
+      "significant": true
+    },
+    {
+      "feature": "meal",
+      "chi2": 288.07,
+      "p_value": 3.800851116417623e-62,
+      "significant": true
+    },
+    {
+      "feature": "assigned_room_type",
+      "chi2": 608.06,
+      "p_value": 3.3067306388254737e-124,
+      "significant": true
+    },
+    {
+      "feature": "reserved_room_type",
+      "chi2": 300.63,
+      "p_value": 3.023248059926563e-60,
+      "significant": true
+    }
+  ],
+  "summary_stats": {
+    "total_bookings": 85169,
+    "overall_cancellation_rate": 27.63,
+    "avg_lead_time": 80.6,
+    "avg_adr": 108.11,
+    "avg_total_nights": 3.67
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "source_model": "XGBoost Tuned for Accuracy",
+  "features": [
+    {
+      "feature": "required_car_parking_spaces",
+      "importance": 0.1708
+    },
+    {
+      "feature": "room_type_changed",
+      "importance": 0.141
+    },
+    {
+      "feature": "lead_time_bucket",
+      "importance": 0.0669
+    },
+    {
+      "feature": "total_of_special_requests",
+      "importance": 0.0383
+    },
+    {
+      "feature": "deposit_type_Non Refund",
+      "importance": 0.0379
+    },
+    {
+      "feature": "country_freq",
+      "importance": 0.0336
+    },
+    {
+      "feature": "market_segment_Direct",
+      "importance": 0.0325
+    },
+    {
+      "feature": "agent_freq",
+      "importance": 0.0318
+    },
+    {
+      "feature": "market_segment_Online TA",
+      "importance": 0.0314
+    },
+    {
+      "feature": "customer_type_Transient",
+      "importance": 0.0306
+    },
+    {
+      "feature": "has_prior_cancellation",
+      "importance": 0.0277
+    },
+    {
+      "feature": "market_segment_Offline TA/TO",
+      "importance": 0.0232
+    },
+    {
+      "feature": "previous_cancellations",
+      "importance": 0.0223
+    },
+    {
+      "feature": "customer_type_Transient-Party",
+      "importance": 0.0192
+    },
+    {
+      "feature": "booking_changes",
+      "importance": 0.0153
+    }
+  ]
+}

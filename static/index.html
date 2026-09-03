@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة توقع إلغاء الحجوزات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">فندق</span>
+    <div class="brand-text">
+      <h1>لوحة توقع إلغاء الحجوزات</h1>
+      <p>مقارنة الموديلات، أهم العوامل، والتنبؤ الفوري لحجز جديد</p>
+    </div>
+  </div>
+  <div id="apiStatus" class="api-status">جارِ الاتصال بالـ API…</div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-tab="overview">نظرة عامة</button>
+  <button class="tab" data-tab="models">الموديلات</button>
+  <button class="tab" data-tab="features">أهم العوامل</button>
+  <button class="tab" data-tab="insights">Insights</button>
+  <button class="tab" data-tab="predict">جرب التوقع</button>
+</nav>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="panel active">
+    <div class="stat-grid" id="statGrid">
+      <div class="stat-card skeleton"></div>
+      <div class="stat-card skeleton"></div>
+      <div class="stat-card skeleton"></div>
+      <div class="stat-card skeleton"></div>
+    </div>
+    <div class="chart-row">
+      <div class="card">
+        <h3>نسبة الإلغاء حسب موسم الوصول</h3>
+        <canvas id="seasonChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>نسبة الإلغاء حسب نوع العربون</h3>
+        <canvas id="depositChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODELS -->
+  <section id="models" class="panel">
+    <div class="card">
+      <h3>ترتيب الموديلات من الأحسن للأسوأ (F1 Score)</h3>
+      <p class="muted">كل الموديلات اللي اتدربت في المشروع، مرتبة تلقائيًا حسب أداءها على بيانات الاختبار.</p>
+      <div class="table-wrap">
+        <table id="modelsTable">
+          <thead>
+            <tr><th>#</th><th>الموديل</th><th>F1</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>ROC-AUC</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>مقارنة بصرية بين الموديلات</h3>
+      <canvas id="modelsChart"></canvas>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="panel">
+    <div class="card">
+      <h3>أهم 15 عامل مؤثر على قرار الإلغاء</h3>
+      <p class="muted" id="featureSource"></p>
+      <canvas id="featuresChart" height="420"></canvas>
+    </div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section id="insights" class="panel">
+    <div class="chart-row">
+      <div class="card">
+        <h3>نسبة الإلغاء حسب قناة الحجز (Market Segment)</h3>
+        <canvas id="segmentChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>نسبة الإلغاء حسب مدة الحجز المسبق (Lead Time)</h3>
+        <canvas id="leadTimeChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <h3>دلالة العوامل التصنيفية إحصائيًا (Chi-Square Test)</h3>
+      <div class="table-wrap">
+        <table id="chiTable">
+          <thead><tr><th>العامل</th><th>Chi²</th><th>P-Value</th><th>معنوي إحصائيًا؟</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREDICT -->
+  <section id="predict" class="panel">
+    <div class="card predict-card">
+      <h3>جرب التوقع على حجز جديد</h3>
+      <p class="muted">اختار الموديل واملأ بيانات الحجز، وهيتوقع لك احتمال الإلغاء.</p>
+
+      <label class="field">
+        <span>الموديل</span>
+        <select id="modelSelect"></select>
+      </label>
+
+      <form id="predictForm" class="form-grid"></form>
+
+      <button id="predictBtn" class="primary-btn" type="button">توقع الآن</button>
+
+      <div id="predictResult" class="result-box hidden"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
