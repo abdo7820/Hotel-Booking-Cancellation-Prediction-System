@@ -8,11 +8,20 @@ document.querySelectorAll(".tab").forEach(btn => {
   });
 });
 
-const GOLD = "#c9a24b";
-const NAVY = "#13293d";
-const GREEN = "#2e7d55";
-const RED = "#b3453a";
-const PALETTE = ["#13293d","#c9a24b","#2e7d55","#b3453a","#5b7f97","#8a6d3b","#3d6b8a","#a3874f"];
+const GOLD = "#d6aa4d";
+const NAVY = "#4f789e";
+const GREEN = "#45d28a";
+const RED = "#ff6b65";
+const PALETTE = ["#d6aa4d","#4f789e","#45d28a","#ff6b65","#7c6bb1","#8a9bae","#c07b55","#5b9a9a"];
+if (typeof Chart !== "undefined") {
+  Chart.defaults.color = "#8fa2b8";
+  Chart.defaults.font.family = "Cairo, sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.borderColor = "rgba(255,255,255,.07)";
+  Chart.defaults.plugins.legend.labels.usePointStyle = true;
+  Chart.defaults.plugins.legend.labels.boxWidth = 8;
+}
+
 
 async function apiGet(path) {
   const res = await fetch(`${API_BASE}${path}`);
@@ -26,10 +35,10 @@ async function apiGet(path) {
   try {
     await apiGet("/health");
     statusEl.textContent = "متصل بالـ API ✓";
-    statusEl.classList.add("ok");
+    statusEl.classList.add("ok"); document.querySelector(".live-dot")?.style.setProperty("background", "#45d28a"); document.querySelector(".live-dot")?.style.setProperty("boxShadow", "0 0 0 5px rgba(69,210,138,.10), 0 0 14px rgba(69,210,138,.55)");
   } catch (e) {
     statusEl.textContent = "مش قادر أوصل للـ API — تأكد إنه شغال على " + API_BASE;
-    statusEl.classList.add("err");
+    statusEl.classList.add("err"); document.querySelector(".live-dot")?.style.setProperty("background", "#ff6b65");
     return;
   }
 

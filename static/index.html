@@ -13,27 +13,27 @@
 
 <header class="topbar">
   <div class="brand">
-    <span class="brand-mark">فندق</span>
+    <span class="brand-mark"><span class="brand-icon">◆</span> HOTEL ML</span>
     <div class="brand-text">
       <h1>لوحة توقع إلغاء الحجوزات</h1>
       <p>مقارنة الموديلات، أهم العوامل، والتنبؤ الفوري لحجز جديد</p>
     </div>
   </div>
-  <div id="apiStatus" class="api-status">جارِ الاتصال بالـ API…</div>
+  <div class="header-meta"><div class="live-dot"></div><div id="apiStatus" class="api-status">جارِ الاتصال بالـ API…</div></div>
 </header>
 
-<nav class="tabs" id="tabs">
+<div class="nav-shell"><nav class="tabs" id="tabs">
   <button class="tab active" data-tab="overview">نظرة عامة</button>
   <button class="tab" data-tab="models">الموديلات</button>
   <button class="tab" data-tab="features">أهم العوامل</button>
   <button class="tab" data-tab="insights">Insights</button>
   <button class="tab" data-tab="predict">جرب التوقع</button>
-</nav>
+</nav></div>
 
 <main>
 
   <!-- OVERVIEW -->
-  <section id="overview" class="panel active">
+  <section id="overview" class="panel active"><div class="section-intro"><span class="eyebrow">ANALYTICS OVERVIEW</span><h2>نظرة شاملة على أداء نظام التنبؤ</h2><p>تابع مؤشرات الحجز، الإلغاء، وأداء نماذج التعلم الآلي في مكان واحد.</p></div>
     <div class="stat-grid" id="statGrid">
       <div class="stat-card skeleton"></div>
       <div class="stat-card skeleton"></div>
@@ -53,7 +53,7 @@
   </section>
 
   <!-- MODELS -->
-  <section id="models" class="panel">
+  <section id="models" class="panel"><div class="section-intro"><span class="eyebrow">MODEL LAB</span><h2>مقارنة نماذج التعلم الآلي</h2><p>اعرض أداء النماذج واختر الأفضل للتنبؤ.</p></div>
     <div class="card">
       <h3>ترتيب الموديلات من الأحسن للأسوأ (F1 Score)</h3>
       <p class="muted">كل الموديلات اللي اتدربت في المشروع، مرتبة تلقائيًا حسب أداءها على بيانات الاختبار.</p>
@@ -73,7 +73,7 @@
   </section>
 
   <!-- FEATURES -->
-  <section id="features" class="panel">
+  <section id="features" class="panel"><div class="section-intro"><span class="eyebrow">FEATURE INTELLIGENCE</span><h2>ما الذي يؤثر على قرار الإلغاء؟</h2><p>أهم الخصائص التي يعتمد عليها الموديل في اتخاذ القرار.</p></div>
     <div class="card">
       <h3>أهم 15 عامل مؤثر على قرار الإلغاء</h3>
       <p class="muted" id="featureSource"></p>
@@ -82,7 +82,7 @@
   </section>
 
   <!-- INSIGHTS -->
-  <section id="insights" class="panel">
+  <section id="insights" class="panel"><div class="section-intro"><span class="eyebrow">BUSINESS INSIGHTS</span><h2>Insights & Statistical Analysis</h2><p>تحليل سلوك الإلغاء حسب القنوات والمواسم ومدة الحجز.</p></div>
     <div class="chart-row">
       <div class="card">
         <h3>نسبة الإلغاء حسب قناة الحجز (Market Segment)</h3>
@@ -105,7 +105,7 @@
   </section>
 
   <!-- PREDICT -->
-  <section id="predict" class="panel">
+  <section id="predict" class="panel"><div class="section-intro"><span class="eyebrow">PREDICTION STUDIO</span><h2>اختبر حجزًا جديدًا</h2><p>أدخل تفاصيل الحجز واحصل على توقع فوري من الموديل.</p></div>
     <div class="card predict-card">
       <h3>جرب التوقع على حجز جديد</h3>
       <p class="muted">اختار الموديل واملأ بيانات الحجز، وهيتوقع لك احتمال الإلغاء.</p>
@@ -117,7 +117,7 @@
 
       <form id="predictForm" class="form-grid"></form>
 
-      <button id="predictBtn" class="primary-btn" type="button">توقع الآن</button>
+      <button id="predictBtn" class="primary-btn" type="button"><span>توقع الآن</span><span class="btn-arrow">←</span></button>
 
       <div id="predictResult" class="result-box hidden"></div>
     </div>
