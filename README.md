@@ -1,5 +1,8 @@
 # 🏨 Hotel Booking Cancellation Prediction --- Production ML System
 
+<img width="1536" height="1024" alt="ChatGPT Image Sep 4, 2026, 03_40_26 AM" src="https://github.com/user-attachments/assets/fac7fb6a-fd14-4d84-8ed3-8213b6648275" />
+
+
 > **End-to-end MLOps system for predicting hotel booking cancellations
 > using multiple Machine Learning models, reproducible artifacts,
 > FastAPI, Docker, an interactive dashboard, and production
