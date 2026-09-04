@@ -47,12 +47,83 @@ async function apiGet(path) {
   loadInsights();
 })();
 
+// ---------- Chart helpers ----------
+const chartInstances = {};
+
+function destroyChart(id) {
+  if (chartInstances[id]) {
+    chartInstances[id].destroy();
+    delete chartInstances[id];
+  }
+}
+
+const GRID = "rgba(255,255,255,.055)";
+const TICK = "#8fa2b8";
+const TOOLTIP = {
+  backgroundColor: "#07111f",
+  titleColor: "#f4f7fb",
+  bodyColor: "#c7d3df",
+  borderColor: "rgba(214,170,77,.30)",
+  borderWidth: 1,
+  padding: 12,
+  cornerRadius: 10,
+  displayColors: true,
+};
+
+const AXIS = {
+  x: {
+    beginAtZero: true,
+    grid: { color: GRID, drawBorder: false },
+    ticks: { color: TICK, padding: 8 },
+    border: { display: false }
+  },
+  y: {
+    beginAtZero: true,
+    grid: { color: GRID, drawBorder: false },
+    ticks: { color: TICK, padding: 8 },
+    border: { display: false }
+  }
+};
+
+function makeBarDataset(label, data, color, radius = 7) {
+  return {
+    label,
+    data,
+    backgroundColor: color,
+    borderColor: color,
+    borderWidth: 0,
+    borderRadius: radius,
+    borderSkipped: false,
+    maxBarThickness: 34,
+    hoverBackgroundColor: GOLD
+  };
+}
+
+function chartOptions(extra = {}) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: { duration: 650, easing: "easeOutQuart" },
+    interaction: { mode: "index", intersect: false },
+    plugins: {
+      legend: {
+        position: "top",
+        align: "end",
+        labels: { color: "#aebdcb", padding: 16, usePointStyle: true, pointStyle: "circle" }
+      },
+      tooltip: TOOLTIP
+    },
+    ...extra
+  };
+}
+
 // ---------- Models tab ----------
 async function loadModels() {
   try {
     const models = await apiGet("/models");
     const tbody = document.querySelector("#modelsTable tbody");
     tbody.innerHTML = "";
+
     models.forEach((m, i) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -66,23 +137,40 @@ async function loadModels() {
       tbody.appendChild(tr);
     });
 
-    new Chart(document.getElementById("modelsChart"), {
+    destroyChart("modelsChart");
+    chartInstances.modelsChart = new Chart(document.getElementById("modelsChart"), {
       type: "bar",
       data: {
         labels: models.map(m => m.Model),
         datasets: [
-          { label: "F1", data: models.map(m => m.F1), backgroundColor: GOLD },
-          { label: "Accuracy", data: models.map(m => m.Accuracy), backgroundColor: NAVY },
+          makeBarDataset("F1 Score", models.map(m => m.F1), GOLD),
+          makeBarDataset("Accuracy", models.map(m => m.Accuracy), NAVY)
         ]
       },
-      options: { responsive: true, scales: { y: { beginAtZero: true, max: 1 } } }
+      options: chartOptions({
+        plugins: {
+          legend: {
+            position: "top",
+            align: "end",
+            labels: { color: "#aebdcb", padding: 18, usePointStyle: true }
+          },
+          tooltip: {
+            ...TOOLTIP,
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${(ctx.parsed.y * 100).toFixed(1)}%`
+            }
+          }
+        },
+        scales: {
+          x: { ...AXIS.x, grid: { display: false }, ticks: { ...AXIS.x.ticks, maxRotation: 35, minRotation: 0 } },
+          y: { ...AXIS.y, max: 1, ticks: { ...AXIS.y.ticks, callback: v => `${Math.round(v * 100)}%` } }
+        }
+      })
     });
 
-    // populate predict dropdown
     const sel = document.getElementById("modelSelect");
     sel.innerHTML = models.map(m => `<option value="${m.file.replace('.pkl','')}">${m.Model}</option>`).join("");
 
-    // stats grid (overview)
     document.getElementById("statGrid").innerHTML = `
       <div class="stat-card"><div class="stat-value">${models.length}</div><div class="stat-label">عدد الموديلات المتاحة</div></div>
       <div class="stat-card"><div class="stat-value">${models[0].Model}</div><div class="stat-label">أفضل موديل (F1 = ${models[0].F1})</div></div>
@@ -100,19 +188,38 @@ async function loadFeatures() {
     const data = await apiGet("/features");
     document.getElementById("featureSource").textContent =
       `مبني على أوزان الموديل: ${data.source_model}`;
+
     const sorted = data.features;
-    new Chart(document.getElementById("featuresChart"), {
+    destroyChart("featuresChart");
+    chartInstances.featuresChart = new Chart(document.getElementById("featuresChart"), {
       type: "bar",
       data: {
         labels: sorted.map(f => f.feature),
-        datasets: [{ label: "الأهمية", data: sorted.map(f => f.importance), backgroundColor: GOLD }]
+        datasets: [{
+          label: "Feature Importance",
+          data: sorted.map(f => f.importance),
+          backgroundColor: sorted.map((_, i) => i === 0 ? GOLD : "rgba(214,170,77,.55)"),
+          borderRadius: 6,
+          borderSkipped: false,
+          maxBarThickness: 24
+        }]
       },
-      options: {
+      options: chartOptions({
         indexAxis: "y",
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { x: { beginAtZero: true } }
-      }
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...TOOLTIP,
+            callbacks: {
+              label: ctx => ` Importance: ${Number(ctx.parsed.x).toFixed(4)}`
+            }
+          }
+        },
+        scales: {
+          x: { ...AXIS.x, ticks: { ...AXIS.x.ticks, callback: v => Number(v).toFixed(3) } },
+          y: { ...AXIS.y, grid: { display: false } }
+        }
+      })
     });
   } catch (e) {
     document.getElementById("featureSource").textContent = "مقدرتش أجيب /features";
@@ -129,49 +236,128 @@ async function loadInsights() {
     document.getElementById("statCancelRate").querySelector(".stat-value").textContent =
       data.summary_stats.overall_cancellation_rate + "%";
 
-    // season chart
+    // Season — elegant doughnut
     const seasonLabels = Object.keys(data.cancel_rate_by_season);
-    new Chart(document.getElementById("seasonChart"), {
+    destroyChart("seasonChart");
+    chartInstances.seasonChart = new Chart(document.getElementById("seasonChart"), {
       type: "doughnut",
       data: {
         labels: seasonLabels,
-        datasets: [{ data: Object.values(data.cancel_rate_by_season), backgroundColor: PALETTE }]
-      }
+        datasets: [{
+          data: Object.values(data.cancel_rate_by_season),
+          backgroundColor: PALETTE,
+          borderColor: "#0e1c2f",
+          borderWidth: 5,
+          hoverOffset: 10
+        }]
+      },
+      options: chartOptions({
+        cutout: "68%",
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: { color: "#aebdcb", padding: 16, usePointStyle: true, pointStyle: "circle" }
+          },
+          tooltip: {
+            ...TOOLTIP,
+            callbacks: {
+              label: ctx => ` ${ctx.label}: ${Number(ctx.raw).toFixed(1)}%`
+            }
+          }
+        }
+      })
     });
 
-    // deposit chart
-    const depositLabels = Object.keys(data.cancel_rate_by_deposit_type);
-    new Chart(document.getElementById("depositChart"), {
+    // Deposit — sorted descending for easier reading
+    const depositEntries = Object.entries(data.cancel_rate_by_deposit_type)
+      .sort((a, b) => Number(b[1]) - Number(a[1]));
+    destroyChart("depositChart");
+    chartInstances.depositChart = new Chart(document.getElementById("depositChart"), {
       type: "bar",
       data: {
-        labels: depositLabels,
-        datasets: [{ label: "نسبة الإلغاء %", data: Object.values(data.cancel_rate_by_deposit_type), backgroundColor: RED }]
+        labels: depositEntries.map(x => x[0]),
+        datasets: [makeBarDataset("Cancellation Rate", depositEntries.map(x => x[1]), RED, 8)]
       },
-      options: { plugins: { legend: { display: false } } }
+      options: chartOptions({
+        indexAxis: "y",
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...TOOLTIP,
+            callbacks: { label: ctx => ` ${Number(ctx.parsed.x).toFixed(1)}%` }
+          }
+        },
+        scales: {
+          x: { ...AXIS.x, ticks: { ...AXIS.x.ticks, callback: v => `${v}%` } },
+          y: { ...AXIS.y, grid: { display: false } }
+        }
+      })
     });
 
-    // market segment chart
-    const segLabels = Object.keys(data.cancel_rate_by_market_segment);
-    new Chart(document.getElementById("segmentChart"), {
+    // Market segment — horizontal, sorted
+    const segEntries = Object.entries(data.cancel_rate_by_market_segment)
+      .sort((a, b) => Number(b[1]) - Number(a[1]));
+    destroyChart("segmentChart");
+    chartInstances.segmentChart = new Chart(document.getElementById("segmentChart"), {
       type: "bar",
       data: {
-        labels: segLabels,
-        datasets: [{ label: "نسبة الإلغاء %", data: Object.values(data.cancel_rate_by_market_segment), backgroundColor: NAVY }]
+        labels: segEntries.map(x => x[0]),
+        datasets: [makeBarDataset("Cancellation Rate", segEntries.map(x => x[1]), NAVY, 7)]
       },
-      options: { indexAxis: "y", plugins: { legend: { display: false } } }
+      options: chartOptions({
+        indexAxis: "y",
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...TOOLTIP,
+            callbacks: { label: ctx => ` ${Number(ctx.parsed.x).toFixed(1)}%` }
+          }
+        },
+        scales: {
+          x: { ...AXIS.x, ticks: { ...AXIS.x.ticks, callback: v => `${v}%` } },
+          y: { ...AXIS.y, grid: { display: false } }
+        }
+      })
     });
 
-    // lead time chart
+    // Lead time — clean trend line with highlighted points
     const leadLabels = Object.keys(data.cancel_rate_by_lead_time_bucket);
-    new Chart(document.getElementById("leadTimeChart"), {
+    destroyChart("leadTimeChart");
+    chartInstances.leadTimeChart = new Chart(document.getElementById("leadTimeChart"), {
       type: "line",
       data: {
         labels: leadLabels,
-        datasets: [{ label: "نسبة الإلغاء %", data: Object.values(data.cancel_rate_by_lead_time_bucket), borderColor: GOLD, backgroundColor: "#c9a24b33", fill: true, tension: .3 }]
-      }
+        datasets: [{
+          label: "Cancellation Rate",
+          data: Object.values(data.cancel_rate_by_lead_time_bucket),
+          borderColor: GOLD,
+          backgroundColor: "rgba(214,170,77,.10)",
+          fill: true,
+          tension: .35,
+          borderWidth: 3,
+          pointRadius: 4,
+          pointHoverRadius: 7,
+          pointBackgroundColor: GOLD,
+          pointBorderColor: "#07111f",
+          pointBorderWidth: 2
+        }]
+      },
+      options: chartOptions({
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...TOOLTIP,
+            callbacks: { label: ctx => ` ${Number(ctx.parsed.y).toFixed(1)}%` }
+          }
+        },
+        scales: {
+          x: { ...AXIS.x, grid: { display: false } },
+          y: { ...AXIS.y, ticks: { ...AXIS.y.ticks, callback: v => `${v}%` } }
+        }
+      })
     });
 
-    // chi square table
+    // Chi-square table
     const tbody = document.querySelector("#chiTable tbody");
     tbody.innerHTML = "";
     data.chi_square_results.forEach(r => {

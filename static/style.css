@@ -215,3 +215,20 @@ tbody tr:first-child td{background:rgba(214,170,77,.075);font-weight:800;color:v
 
 /* Chart.js dark canvas text */
 .chart-row canvas,.card canvas{filter:saturate(.92)}
+
+/* Chart polish */
+.card canvas{
+  display:block;
+  width:100% !important;
+  height:300px !important;
+  margin-top:16px;
+}
+#featuresChart{height:500px !important}
+#modelsChart{height:350px !important}
+#seasonChart,#depositChart{height:310px !important}
+#segmentChart,#leadTimeChart{height:330px !important}
+
+@media(max-width:760px){
+  #featuresChart{height:520px !important}
+  #modelsChart{height:360px !important}
+}
