@@ -42,9 +42,12 @@ async function apiGet(path) {
     return;
   }
 
-  loadModels();
-  loadFeatures();
-  loadInsights();
+  // Load in order: insights needs the stat cards created by loadModels().
+  // Running these three requests in parallel can cause a race condition
+  // where /insights finishes before /models and the charts never render.
+  await loadModels();
+  await loadFeatures();
+  await loadInsights();
 })();
 
 // ---------- Chart helpers ----------
