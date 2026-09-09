@@ -1,6 +1,6 @@
 # 🏨 Hotel Booking Cancellation Prediction --- Production ML System
 
-<img width="1536" height="1024" alt="ChatGPT Image Sep 4, 2026, 03_40_26 AM" src="https://github.com/user-attachments/assets/fac7fb6a-fd14-4d84-8ed3-8213b6648275" />
+<img width="1536" height="1024" alt="ChatGPT Image Sep 5, 2026, 02_52_52 AM" src="https://github.com/user-attachments/assets/31ce99a6-242e-4aa7-b975-00325a748ada" />
 
 
 > **End-to-end MLOps system for predicting hotel booking cancellations
