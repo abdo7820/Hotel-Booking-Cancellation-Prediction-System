@@ -1,5 +1,18 @@
-# 🏨 Hotel Booking Cancellation Prediction --- Production ML System
+# 🏨 Hotel Booking Cancellation Prediction — Production ML System
 
+
+<p align="center">
+  <img src="https://img.shields.io/badge/PYTHON-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/FASTAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+  <img src="https://img.shields.io/badge/DOCKER-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/XGBOOST-185619?style=for-the-badge&logo=xgboost&logoColor=white" />
+  <img src="https://img.shields.io/badge/RAILWAY-0B0D0E?style=for-the-badge&logo=railway&logoColor=white" />
+</p>
+
+> *A production-ready MLOps system answering one core question:*  
+> *What actually determines whether a hotel booking will be canceled — lead time, deposit type, or market segment?*
+
+---
 <img width="1536" height="1024" alt="ChatGPT Image Sep 5, 2026, 02_52_52 AM" src="https://github.com/user-attachments/assets/31ce99a6-242e-4aa7-b975-00325a748ada" />
 
 
